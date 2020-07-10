@@ -18,7 +18,7 @@ function setupClickListeners() {
       name: $('#nameIn').val(),
       age: $('#ageIn').val(),
       gender: $('#genderIn').val(),
-      readyForTransfer: $('#readyForTransferIn').val(),
+      ready_to_transfer: $('#readyForTransferIn').val(),
       notes: $('#notesIn').val(),
     };
     // call saveKoala with the new obejct
@@ -64,7 +64,7 @@ function saveKoala(newKoala) {
   console.log('in saveKoala', newKoala);
   // ajax call to server to post koalas
 
-  console.log(newKoala);
+  console.log('newKoala', newKoala);
   if (
     (newKoala.name ||
       newKoala.gender ||
