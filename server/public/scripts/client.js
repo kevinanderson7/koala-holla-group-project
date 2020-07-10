@@ -1,17 +1,16 @@
-console.log( 'js' );
+console.log('js');
 
-$( document ).ready( function(){
-  console.log( 'JQ' );
+$(document).ready(function () {
+  console.log('JQ');
   // Establish Click Listeners
-  setupClickListeners()
+  setupClickListeners();
   // load existing koalas on page load
   getKoalas();
-
 }); // end doc ready
 
 function setupClickListeners() {
-  $( '#addButton' ).on( 'click', function(){
-    console.log( 'in addButton on click' );
+  $('#addButton').on('click', function () {
+    console.log('in addButton on click');
     // get user input and put in an object
     // NOT WORKING YET :(
     // using a test object
@@ -23,12 +22,12 @@ function setupClickListeners() {
       notes: $('#notesIn').val(),
     };
     // call saveKoala with the new obejct
-    saveKoala( koalaToSend );
-  }); 
+    saveKoala(koalaToSend);
+  });
 }
 
-function getKoalas(){
-  console.log( 'in getKoalas' );
+function getKoalas() {
+  console.log('in getKoalas');
   $.ajax({
     method: 'GET',
     url: '/koalas',
@@ -42,26 +41,49 @@ function getKoalas(){
       $('#genderIn').val('');
       $('#readyForTransferIn').val('');
       $('#notesIn').val('');
-      
 
-      $('#bookTableBody').empty();
-      for (let book of listOfBooks) {
-        $('#bookTableBody').append(`
+      $('#viewKoalas').empty();
+      for (let koala of listOfKoalas) {
+        $('#viewKoalas').append(`
         <tr>
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-        <td>${book.published}</td>
+        <td>${koala.name}</td>
+        <td>${koala.age}</td>
+        <td>${koala.gender}</td>
+        <td>${koala.ready_to_transfer}</td>
+        <td>${koala.notes}</td>
       </tr>`);
       }
     })
     .catch(function (error) {
-      console.log('error in book get', error);
+      console.log('error in koala get', error);
     });
-}  
-} // end getKoalas
+}
+// end getKoalas
 
-function saveKoala( newKoala ){
-  console.log( 'in saveKoala', newKoala );
-  // ajax call to server to get koalas
- 
+function saveKoala(newKoala) {
+  console.log('in saveKoala', newKoala);
+  // ajax call to server to post koalas
+
+  console.log(newKoala);
+  if (
+    (newKoala.name ||
+      newKoala.gender ||
+      newKoala.age ||
+      newKoala.ready_to_transfer) === ''
+  ) {
+    alert('Please fill in missing koala fields');
+  } else {
+    $.ajax({
+      method: 'POST',
+      url: '/koalas',
+      data: newKoala,
+    })
+      .then(function (response) {
+        console.log(response);
+        getKoalas();
+      })
+      .catch(function (error) {
+        console.log('error in koala post', error);
+      });
+  }
 }

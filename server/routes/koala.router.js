@@ -1,5 +1,5 @@
 const express = require('express');
-const koalaRouter = express.Router();
+const router = express.Router();
 const pg = require('pg');
 const pool = require('../modules/pool');
 
@@ -42,4 +42,4 @@ router.post('/', (req, res) => {
     });
 });
 
-module.exports = koalaRouter;
+module.exports = router;
