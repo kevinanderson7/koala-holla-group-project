@@ -16,11 +16,11 @@ function setupClickListeners() {
     // NOT WORKING YET :(
     // using a test object
     let koalaToSend = {
-      name: 'testName',
-      age: 'testName',
-      gender: 'testName',
-      readyForTransfer: 'testName',
-      notes: 'testName',
+      name: $('#nameIn').val(),
+      age: $('#ageIn').val(),
+      gender: $('#genderIn').val(),
+      readyForTransfer: $('#readyForTransferIn').val(),
+      notes: $('#notesIn').val(),
     };
     // call saveKoala with the new obejct
     saveKoala( koalaToSend );
@@ -29,8 +29,35 @@ function setupClickListeners() {
 
 function getKoalas(){
   console.log( 'in getKoalas' );
-  // ajax call to server to get koalas
-  
+  $.ajax({
+    method: 'GET',
+    url: '/koalas',
+  })
+    .then(function (response) {
+      const listOfKoalas = response;
+      console.log('server response:', response);
+
+      $('#nameIn').val('');
+      $('#ageIn').val('');
+      $('#genderIn').val('');
+      $('#readyForTransferIn').val('');
+      $('#notesIn').val('');
+      
+
+      $('#bookTableBody').empty();
+      for (let book of listOfBooks) {
+        $('#bookTableBody').append(`
+        <tr>
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>${book.published}</td>
+      </tr>`);
+      }
+    })
+    .catch(function (error) {
+      console.log('error in book get', error);
+    });
+}  
 } // end getKoalas
 
 function saveKoala( newKoala ){
