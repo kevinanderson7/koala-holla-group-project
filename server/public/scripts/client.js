@@ -56,7 +56,7 @@ function render() {
             <td>${koalaToSend.readyForTransfer}</td>
             <td>${koalaToSend.notes}</td>
             
-            x
+            
           </tr>`);
   }
 }
